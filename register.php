@@ -7,14 +7,14 @@
     if(isset($_POST['submit'])){
         try {
             $connection = Connection::make($config);
-            $pdo = new Aksi($connection);
+            $pdo = new Auth($connection);
             $pdo->register([
               'nama' => $_POST['nama'],
               'email' => $_POST['email'],
               'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                 
           ]);
-            $sql = "INSERT INTO login (nama,email,password) VALUES  (:nama,:emil,:password)";
+            $sql = "INSERT INTO login (nama,email,password) VALUES  (:nama,:email,:password)";
             $stmt= $pdo->prepare($sql);
             $stmt->execute($params);
             header("location: login.php");

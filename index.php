@@ -7,14 +7,14 @@
         session_start();
 
     if (isset($_POST['logout'])) {
-        $aksi->logout([$_SESSION['user']]);
+        $auth->logout([$_SESSION['user']]);
     }
     if (!isset($_SESSION['user'])) {
         header("location: login.php");
     }else{
-        $user = $aksi->getName($_SESSION['user']);
+        $user = $auth->getName($_SESSION['user']);
         $connection = Connection::make($config);
-        $pdo = new Aksi($connection);
+        $pdo = new Auth($connection);
         $user = $pdo->select('mahasiswa');
     }    
  ?>

@@ -14,5 +14,5 @@ catch(PDOException $e)
 }
 include_once 'Aksi.php'; 
 
-      $user = new Aksi($pdo); 
+      $user = new Auth($pdo); 
 ?>

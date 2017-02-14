@@ -7,7 +7,7 @@
     if(isset($_POST['submit'])){
         try {
             $connection = Connection::make($config);
-            $pdo = new Aksi($connection);
+            $pdo = new Auth($connection);
             $pdo->login($_POST['email'], $_POST['password']);
         }
         catch(PDOException $e){
@@ -37,8 +37,6 @@
 <!DOCTYPE html>  
 <html>  
     <head>
-        <meta charset="utf-8">
-
         <title>Login</title>
         <h1>WELLCOME to Website CILIK</h1>
     </head>

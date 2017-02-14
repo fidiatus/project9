@@ -2,14 +2,14 @@
    /** 
     * Class Aksi untuk melakukan login dan registrasi user baru 
     */ 
-   class Aksi 
+   class Auth 
    { 
-     private $pdo; //Menyimpan Koneksi database 
+     protected $pdo; //Menyimpan Koneksi database 
      private $error; //Menyimpan Error Message 
      /*## Contructor untuk class Auth, membutuhkan satu parameter yaitu koneksi ke database ## */
-     function __construct($pdo_conn) 
+     function __construct($pdo) 
      { 
-       $this->pdo = $pdo_conn; 
+       $this->pdo = $pdo; 
        // Mulai session  
        session_start(); 
      } 
@@ -17,59 +17,53 @@
      /* Start : Registrasi User baru  */ 
      public function register($nama, $email, $password) 
      { 
-       try 
-       { 
-         // buat hash dari password yang dimasukkan 
-         $hashPasswd = password_hash($password, PASSWORD_DEFAULT); 
-         //Masukkan user baru ke database 
-         $stmt = $this->pdo->prepare("INSERT INTO login(nama, email, password) VALUES(:nama, :email, :password)"); 
-         $stmt->bindParam(":nama", $nama); 
-         $stmt->bindParam(":email", $email); 
-         $stmt->bindParam(":password", $hashPasswd); 
-         $stmt->execute(); 
-         return true; 
-       }catch(PDOException $e){ 
-         // Jika terjadi error 
-         if($e->errorInfo[0] == 23000){ 
-           //errorInfor[0] berisi informasi error tentang query sql yg baru dijalankan
-           //23000 adalah kode error ketika ada data yg sama pada kolom yg di set unique 
-           $this->error = "Email sudah digunakan!"; 
-           return false; 
-         }else{ 
-           echo $e->getMessage(); 
-           return false; 
-         } 
-       } 
+        $user = $parameters['email'];
+        $statement = $this->pdo->prepare("select * from login where email='{$email}'");
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_CLASS);
+        if (!empty($data)) {
+          // var_dump($data);exit;
+          echo "<script> alert('email telah terdaftar!');      
+              window.location.href='register.php';
+      </script>";
+        }else{
+        $sql = printf('insert into login (%s) values (%s)',implode(', ', array_keys($parameters)),
+              ':' . implode(', :', array_keys($parameters)));
+          try {
+              $statement = $this->pdo->prepare($sql);
+              $statement->execute($parameters);
+              //return true;
+              header("location: login.php");
+          } catch (\Exception $e) {
+              return false;
+          }
+        }
      } /* 
 
      ### Start : fungsi login user ###  */
      public function login($email, $password) 
      { 
-       try 
-       { 
          // Ambil data dari database 
          $stmt = $this->pdo->prepare("SELECT * FROM login WHERE email = :email"); 
          $stmt->bindParam(":email", $email); 
          $stmt->execute(); 
          $data = $stmt->fetch(); 
          // Jika jumlah baris > 0 
-         if($stmt->rowCount() > 0){ 
-           // jika password yang dimasukkan sesuai dengan yg ada di database 
-           if(password_verify($password, $data['password'])){ 
-             $_SESSION['user_session'] = $data['id']; 
-             return true; 
-           }else{ 
-             $this->error = "Email atau Password Salah"; 
-             return false; 
-           } 
-         }else{ 
-           $this->error = "Email atau Password Salah"; 
-           return false; 
-         } 
-       } catch (PDOException $e) { 
-         echo $e->getMessage(); 
-         return false; 
-       } 
+         if (!empty($data[0]->email)) {
+        if (password_verify($_POST['password'], $data[0]->password)) {
+          session_start();
+          $_SESSION['login'] = $data[0]->id;
+        echo "<script> alert('Login sukses!');      
+                window.location.href='index.php';
+              </script>";
+        }else{
+          echo "<script> alert('email atau password salah!');      
+                window.location.href='login.php';
+                </script>";
+        }
+      }else{
+        header("location: login.php");
+      }
      } /*
      ### End : fungsi login user ### 
 
@@ -82,33 +76,23 @@
        } 
      } /*
      ### End : fungsi cek login user ###  
+
      ### Start : fungsi ambil data user yang sudah login ###   */
-     public function getUser(){ 
-       // Cek apakah sudah login 
-       if(!$this->isLoggedIn()){ 
-         return false; 
-       } 
-       try { 
-         // Ambil data user dari database 
-         $stmt = $this->pdo->prepare("SELECT * FROM login WHERE id = :id"); 
-         $stmt->bindParam(":id", $_SESSION['user_session']); 
-         $stmt->execute(); 
-         return $stmt->fetch(); 
-       } catch (PDOException $e) { 
-         echo $e->getMessage(); 
-         return false; 
-       } 
-     } /*
+     public function getUser($email)
+    {
+        $statement = $this->pdo->prepare("select * from login where email='{$email}'");
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_CLASS);
+        return $data[0]->email;
+    } /*
      ### End : fungsi ambil data user yang sudah login ###  
 
      ### Start : fungsi Logout user ###  */
-     public function logout(){ 
-       // Hapus session 
-       session_destroy(); 
-       // Hapus user_session 
-       unset($_SESSION['user_session']); 
-       return true; 
-     } /*
+     public function logout($email)
+    {
+      session_unset($email);
+    }
+     /*
      ### End : fungsi Logout user ###  
      ### Start : fungsi ambil error terakhir yg disimpan di variable error ###  */
      public function getLastError(){ 
