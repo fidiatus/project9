@@ -14,12 +14,6 @@
                 ':prodi'    => $_POST['prodi'],
                 ':jurusan'    => $_POST['jurusan'],
             ]);
-
-            $sql = "INSERT INTO mahasiswa (nim,nama,kelas,prodi,jurusan) VALUES  (:nim,:nama,:kelas,:prodi,:jurusan)";
-            $stmt= $pdo->prepare($sql);
-            $stmt->execute($params);
-
-            header("location: index.php");
         }
         catch(PDOException $e){         //PDO
             echo $e->getMessage();

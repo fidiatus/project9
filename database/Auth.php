@@ -63,7 +63,7 @@
         }
       }else{
         header("location: login.php");
-      }
+      } 
      } /*
      ### End : fungsi login user ### 
 

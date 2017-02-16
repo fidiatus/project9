@@ -17,5 +17,5 @@ class Connection
             var_dump($e->getMessage());
 
         }
-    }
+    } 
 }
