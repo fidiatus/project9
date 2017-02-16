@@ -1,27 +1,28 @@
 <?php  
     // Lampirkan koneksi dan User
     require_once "database/Connection.php";
-    require_once "database/Auth.php";
+    require_once "database/Autht.php";
     require_once "config/database.php";
 
     if(isset($_POST['submit'])){
         try {
             $connection = Connection::make($config);
-            $pdo = new Auth($connection);
+            $pdo = new Autht($connection);
             $pdo->register([
-              'nama' => $_POST['nama'],
+              'User' => $_POST['usename'],
               'email' => $_POST['email'],
               'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
                 
           ]);
-            $sql = "INSERT INTO login (nama,email,password) VALUES  (:nama,:email,:password)";
-            $stmt= $pdo->prepare($sql);
-            $stmt->execute($params);
-            header("location: login.php");
         }
         catch(PDOException $e){
             echo $e->getMessage();
         }
+    }
+    if (isset($_SESSION['email'])) {
+        header("location: index.php");
+    }else {
+
     }
 ?> 
 <!DOCTYPE html>

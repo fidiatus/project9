@@ -6,8 +6,8 @@
     if(isset($_POST['submit'])){
         try {
             $connection = Connection::make($config);
-            $pdo = new QueryBuilder($connection);
-            $pdo->insert('mahasiswa', [
+            $db = new QueryBuilder($connection);
+            $db->insert('mahasiswa', [
                 ':nim'   => $_POST['nim'],
                 ':nama'   => $_POST['nama'],
                 ':kelas' => $_POST['kelas'],

@@ -1,21 +1,21 @@
 <?php
 
     require_once "database/Connection.php";
-    require_once "database/Auth.php";
+    require_once "database/Autht.php";
     require_once "config/database.php";
 
         session_start();
 
     if (isset($_POST['logout'])) {
-        $auth->logout([$_SESSION['user']]);
+        $autht->logout([$_SESSION['email']]);
     }
-    if (!isset($_SESSION['user'])) {
+    if (!isset($_SESSION['email'])) {
         header("location: login.php");
     }else{
-        $user = $auth->getName($_SESSION['user']);
+        $email = $autht->getName($_SESSION['email']);
         $connection = Connection::make($config);
-        $pdo = new Auth($connection);
-        $user = $pdo->select('mahasiswa');
+        $db = new Autht($connection);
+        $email = $db->select('mahasiswa');
     }    
  ?>
  

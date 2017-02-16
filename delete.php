@@ -5,8 +5,8 @@
 
     try {
         $connection = Connection::make($config);
-        $pdo = new QueryBuilder($connection);
-        $pdo->delete('mahasiswa',$_GET['id']);
+        $db = new QueryBuilder($connection);
+        $db->delete('mahasiswa',$_GET['id']);
     }
     catch(PDOException $e){
         echo $e->getMessage();

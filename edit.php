@@ -4,14 +4,14 @@
     require_once "config/database.php";
 
     $connection = Connection::make($config);
-    $pdo = new QueryBuilder($connection);
-    $article = $pdo->find('mahasiswa',$_GET['id']);
+    $db = new QueryBuilder($connection);
+    $article = $db->find('mahasiswa',$_GET['id']);
     
     if(isset($_POST['submit'])){
         $id = $_GET['id'];
         // var_dump($id);exit;
         try {
-            $pdo->update('mahasiswa', [
+            $db->update('mahasiswa', [
                 'nim'        => $_POST['nim'],
                 'nama'       => $_POST['nama'],
                 'kelas'       => $_POST['kelas'],

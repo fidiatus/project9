@@ -2,11 +2,11 @@
 
 class QueryBuilder
 {
-    protected $pdo;
+    protected $db;
 
-    public function __construct($pdo)
+    public function __construct($db_con)
     {
-        $this->pdo = $pdo;
+        $this->db = $db_con;
     }
 
     public function select($table,$columns=[])
@@ -17,12 +17,17 @@ class QueryBuilder
             $columns = '*';
         }
 
-        $statement = $this->pdo->prepare("select {$columns} from {$table}");
+        $statement = $this->db->prepare("select {$columns} from {$table}");
         $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_CLASS);
     }
-
+    public function find($table,$id)
+    {
+        $statement = $this->pdo->prepare("select * from {$table} where id={$id}");
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_CLASS);
+    }
     public function insert($table, $parameters)
     {
         $sql = sprintf(
@@ -32,15 +37,41 @@ class QueryBuilder
             ':' . implode(', :', array_keys($parameters))
         );
         try {
-            $statement = $this->pdo->prepare($sql);
+            $statement = $this->db->prepare($db);
             $statement->execute($parameters);
-
-            return true;
-
+                //return true;
+            header("location: index.php");
         } catch (\Exception $e) {
-
             return false;
 
         }
+    }
+    public function update($table, $parameters, $id)
+    {
+        $param ='';
+        foreach ($parameters as $key => $value) {
+            $param .= $key.'=:'.$key.',';
+        }
+        $sql = sprintf(
+            'update %s set %s where %s',
+            $table,
+            substr($param,0,-1),
+            'id='.$id
+        );
+        try {
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute($parameters);
+            
+            header("location: index.php");
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+    public function delete($table,$id)
+    {
+        $sql = sprintf('delete from %s where id=:id',$table);
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([':id'=>$id]);
+        header("location: index.php");
     }
 }

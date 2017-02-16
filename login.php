@@ -1,21 +1,21 @@
 <?php  
     // Lampirkan pdo dan User
     require_once "database/Connection.php";
-    require_once "database/Auth.php";
+    require_once "database/Autht.php";
     require_once "config/database.php";
 
     if(isset($_POST['submit'])){
         try {
             $connection = Connection::make($config);
-            $pdo = new Auth($connection);
-            $pdo->login($_POST['email'], $_POST['password']);
+            $db = new Autht($connection);
+            $db->login($_POST['email'], $_POST['password']);
         }
         catch(PDOException $e){
             echo $e->getMessage();
         }
     }
 
-    if (isset($_SESSION['login'])) {
+    if (isset($_SESSION['email'])) {
       header("location : index.php");
     } else {
        
