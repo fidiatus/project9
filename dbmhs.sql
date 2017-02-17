@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2017 at 07:42 AM
+-- Generation Time: Feb 17, 2017 at 03:59 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -72,15 +72,18 @@ CREATE TABLE IF NOT EXISTS `user` (
 `id` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(30) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES
-(1, 'fidi', 'fidiatus@gmail.com', '12345');
+(1, 'fidi', 'fidiatus@gmail.com', '12345'),
+(2, 'angel', 'angel@gmail.com', '$2y$10$bFPZCk8Jw4bzYbEv3n8.z.c'),
+(3, 'edwin', 'edwin@gmail.com', '$2y$10$DwenlSZ7.gL2uTJloDG8LeZ'),
+(4, 'user1', 'user1@gmail.com', '$2y$10$umXy4NVwQApxne/k5ROR7uvuk9dyE3r4JnnPp4oX6Jb8ZFxuUsMPi');
 
 --
 -- Indexes for dumped tables
@@ -117,7 +120,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

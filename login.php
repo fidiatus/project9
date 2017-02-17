@@ -4,11 +4,11 @@
     require_once "database/Autht.php";
     require_once "config/database.php";
 
-    if(isset($_POST['submit'])){
+    if(isset($_POST['kirim'])){
         try {
             $connection = Connection::make($config);
             $db = new Autht($connection);
-            $db->login($_POST['email'], $_POST['password']);
+            $db->login($_POST['username'], $_POST['email'], $_POST['password']);
         }
         catch(PDOException $e){
             echo $e->getMessage();
@@ -31,15 +31,16 @@
     <body>
         <div class="login-page">
           <div class="form">
-            <form class="login-form" method="post">
+            <form class="login-form" action="" method="post">
               <?php if (isset($error)): ?>
                   <div class="error">
                       <?php echo $error ?>
                   </div>
               <?php endif; ?>
-              <input type="email" name="email" placeholder="email" required/><br/>
-              <input type="password" name="password" placeholder="password" required/><br/>
-              <button type="submit" name="kirim">login</button><br/>
+              <input type="text" name="username" placeholder="username" required/><br/><br/>
+              <input type="email" name="email" placeholder="email" required/><br/><br/>
+              <input type="password" name="password" placeholder="password" required/><br/><br/>
+              <button type="submit" name="kirim">login</button><br/><br/>
               <p class="message">Not registered? <a href="register.php">Create an account</a></p>
             </form>
           </div>

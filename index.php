@@ -3,20 +3,29 @@
     require_once "database/Connection.php";
     require_once "database/Autht.php";
     require_once "config/database.php";
+require_once "database/QueryBuilder.php";
 
-        session_start();
+        // session_start();
 
-    if (isset($_POST['logout'])) {
-        $autht->logout([$_SESSION['email']]);
-    }
-    if (!isset($_SESSION['email'])) {
-        header("location: login.php");
+    // if (isset($_POST['logout'])) {
+    //     $autht->logout([$_SESSION['email']]);
+    // }$connection = }
+    Connection::make($config);
+    $db = new QueryBuilder($connection);
+    if (!isset($_SESSION['login'])) {
+        // header("location: login.php");
     }else{
         $email = $autht->getName($_SESSION['email']);
         $connection = Connection::make($config);
         $db = new Autht($connection);
         $email = $db->select('mahasiswa');
     }    
+    $sql = "SELECT * FROM  mahasiswa";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+
+    $users = $stmt->fetchAll(PDO::FETCH_BOTH);
+
  ?>
  
  <!DOCTYPE html>  

@@ -5,15 +5,16 @@
     require_once "config/database.php";
 
     if(isset($_POST['submit'])){
+        
         try {
             $connection = Connection::make($config);
             $pdo = new Autht($connection);
-            $pdo->register([
-              'User' => $_POST['usename'],
-              'email' => $_POST['email'],
-              'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
-                
-          ]);
+           
+            $pdo->register(
+              $_POST['username'],
+              $_POST['email'],
+              password_hash($_POST['password'], PASSWORD_BCRYPT)     
+          );
         }
         catch(PDOException $e){
             echo $e->getMessage();
@@ -41,7 +42,7 @@
             <form action="" method="POST">
                 <center></center>
                 <label>Nama</label>
-                <input type="text" class="control" name="nama" placeholder="Nama" required>
+                <input type="text" class="control" name="username" placeholder="Nama" required>
                 <p class="error"></p>
                 <label>Email</label>
                 <input type="email" class="control" name="email" placeholder="Email" required>

@@ -10,7 +10,7 @@ class Connection
             $dbname     = $config['dbname'];
             $username   = $config['username'];
             $password   = $config['password'];
-
+            
             return new PDO("mysql:host={$hostname};dbname={$dbname}",$username,$password);
 
         } catch (PDOException $e) {

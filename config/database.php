@@ -1,7 +1,7 @@
 <?php
 $config = [
     'hostname'   => 'localhost',
-    'dbname   '  =>'dbmhs',
-    'username '  => 'root',
-    'password '  => ''
-	];
+    'dbname'  =>'dbmhs',
+    'username'  => 'root',
+    'password'  => ''
+];
