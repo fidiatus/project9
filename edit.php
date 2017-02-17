@@ -5,7 +5,7 @@
 
     $connection = Connection::make($config);
     $db = new QueryBuilder($connection);
-    $article = $db->find('mahasiswa',$_GET['id']);
+    $mhs = $db->find('mahasiswa',$_GET['id']);
     
     if(isset($_POST['submit'])){
         $id = $_GET['id'];
@@ -14,7 +14,7 @@
             $db->update('mahasiswa', [
                 'nim'        => $_POST['nim'],
                 'nama'       => $_POST['nama'],
-                'kelas'       => $_POST['kelas'],
+                'kelas'      => $_POST['kelas'],
                 'prodi'      => $_POST['prodi'],
                 'jurusan'    => $_POST['jurusan'],
                 'id'    => $_POST['id'],
@@ -35,18 +35,17 @@
     <link rel="stylesheet" href="">
 </head>
 <body>
-    <form action="edit.php" method="post" accept-charset="utf-8">
-        <input type="hidden" name="id" value="<?= $mhs['id']?>">
+    <form action="edit.php?id=<?=$mhs[0]->id; ?>" method="post" accept-charset="utf-8">
         <p>Nim</p>
-        <input type="text" name="nim" value="<?= $mhs['nim']?>" placeholder="" >
+        <input type="text" name="nim" value="<?= $mhs[0]->nim; ?>" placeholder="" >
         <p>Nama</p>
-        <input type="text" name="nama" value="<?= $mhs['nama']?>" placeholder="" >
+        <input type="text" name="nama" value="<?= $mhs[0]->nama; ?>" placeholder="" >
         <p>Kelas</p>
-        <input type="text" name="kelas" value="<?= $mhs['kelas']?>" placeholder="" >
+        <input type="text" name="kelas" value="<?= $mhs[0]->kelas; ?>" placeholder="" >
         <p>Prodi</p>
-        <input type="text" name="prodi" value="<?= $mhs['prodi']?>" placeholder="" >
+        <input type="text" name="prodi" value="<?= $mhs[0]->prodi; ?>" placeholder="" >
         <p>Jurusan</p>
-        <input type="text" name="jurusan" value="<?= $mhs['jurusan']?>" placeholder="" >
+        <input type="text" name="jurusan" value="<?= $mhs[0]->jurusan; ?>" placeholder="" >
         <br>
         <br>
         <input type="submit" name="submit" value="submit">
