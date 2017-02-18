@@ -8,14 +8,14 @@
             $connection = Connection::make($config);
             $db = new QueryBuilder($connection);
             $db->insert('mahasiswa', [
-                ':nim'   => $_POST['nim'],
-                ':nama'   => $_POST['nama'],
-                ':kelas' => $_POST['kelas'],
-                ':prodi'    => $_POST['prodi'],
-                ':jurusan'    => $_POST['jurusan'],
+                'nim' => $_POST['nim'],
+                'nama' => $_POST['nama'],
+                'kelas' => $_POST['kelas'],
+                'prodi' => $_POST['prodi'],
+                'jurusan' => $_POST['jurusan']
             ]);
         }
-        catch(PDOException $e){         //PDO
+        catch(PDOException $e){
             echo $e->getMessage();
         }
     }
@@ -26,24 +26,23 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <link rel="stylesheet" href="">
+    <title>insert</title>
 </head>
 <body>
+<h1> Input Data Mahasiswa</h1>
     <form action="create.php" method="post" accept-charset="utf-8">
-        <p>NIM</p>
-        <input type="text" name="nim" value="" placeholder="" >
-        <p>Nama</p>
-        <input type="text" name="nama" value="" placeholder="" >
-        <p>Kelas</p>
-        <input type="text" name="kelas" value="" placeholder="" >
-        <p>Prodi</p>
-        <input type="text" name="prodi" value="" placeholder="">
-        <p>Jurusan</p>
-        <input type="text" name="jurusan" value="" placeholder="">
-        <br>
-        <br>
-        <input type="submit" name="submit" value="submit">
+        <p>NIM
+        <input type="text" name="nim" value="" placeholder="" ></p>
+        <p>Nama
+        <input type="text" name="nama" value="" placeholder="" ></p>
+        <p>Kelas
+        <input type="text" name="kelas" value="" placeholder="" ></p>
+        <p>Prodi
+        <input type="text" name="prodi" value="" placeholder=""></p>
+        <p>Jurusan
+        <input type="text" name="jurusan" value="" placeholder=""></p>
+        <br/>
+        <input type="submit" name="submit" value="submit"/>
     </form>
 </body>
 </html>

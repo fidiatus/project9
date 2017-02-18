@@ -15,7 +15,9 @@
     <head>
         <meta charset="utf-8">
         <title>Home</title>
-	 <a href="create.php" >Tambah</a>
+        <h1> Data Mahasiswa</h1>
+        <body>
+	 <a href="create.php" >Tambah</a><br/>
     <table border="1">
         <tr>
             <th>NIM</th>
@@ -42,9 +44,9 @@
         </tr>
         <?php endforeach ;?>
     </table>
+    <br/>
         <div class="container">
             <a href="logout.php"><button type="button">Logout</button></a>
-
         </div>
     </body>
 </html>

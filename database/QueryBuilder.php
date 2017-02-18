@@ -24,7 +24,7 @@ class QueryBuilder
     }
     public function find($table,$id)
     {
-        $statement = $this->pdo->prepare("select * from {$table} where id={$id}");
+        $statement = $this->db->prepare("select * from {$table} where id={$id}");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_CLASS);
     }
@@ -37,7 +37,7 @@ class QueryBuilder
             ':' . implode(', :', array_keys($parameters))
         );
         try {
-            $statement = $this->db->prepare($db);
+            $statement = $this->db->prepare($sql);
             $statement->execute($parameters);
                 //return true;
             header("location: index.php");
@@ -59,7 +59,7 @@ class QueryBuilder
             'id='.$id
         );
         try {
-            $statement = $this->pdo->prepare($sql);
+            $statement = $this->db->prepare($sql);
             $statement->execute($parameters);
             
             header("location: index.php");
@@ -70,7 +70,7 @@ class QueryBuilder
     public function delete($table,$id)
     {
         $sql = sprintf('delete from %s where id=:id',$table);
-        $statement = $this->pdo->prepare($sql);
+        $statement = $this->db->prepare($sql);
         $statement->execute([':id'=>$id]);
         header("location: index.php");
     }
